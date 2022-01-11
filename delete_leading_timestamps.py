@@ -9,7 +9,7 @@ import subprocess
 import re
 import os
 
-def decode(s, encodings=('utf8', 'cp932', 'ascii')):
+def decode(s, encodings=('utf8', 'cp932')):
     for encoding in encodings:
         try:
             return s.decode(encoding)
