@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Paste clipboard text with quote marks
+# Delete timestamps in the begining of each line
 
 # %%%{CotEditorXInput=AllText}%%%
 # %%%{CotEditorXOutput=ReplaceAllText}%%%
