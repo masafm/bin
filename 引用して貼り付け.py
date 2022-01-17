@@ -10,4 +10,7 @@ import subprocess
 cmd = ["pbpaste"]
 p = subprocess.run(cmd, stdout=subprocess.PIPE, text=True)
 for line in p.stdout.strip().splitlines():
-    print(f"> {line}")
+    if line.startswith('>'):
+        print(f">{line}")
+    else:
+        print(f"> {line}")
