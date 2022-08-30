@@ -20,7 +20,8 @@ def decode(s, encodings=('utf8', 'cp932')):
 input = sys.stdin.buffer.read()
 try:
     for line in decode(input).splitlines():
-        print(re.sub('^\[.+?\] ?', '', line))
+        tmp = re.sub('^\[.+?\] ?', '', line)
+        print(re.sub('\r\n$', '\n', tmp))
 except BrokenPipeError:
     devnull = os.open(os.devnull, os.O_WRONLY)
     os.dup2(devnull, sys.stdout.fileno())
