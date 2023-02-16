@@ -19,11 +19,7 @@ def decode(s, encodings=('utf8', 'cp932')):
             pass
     return ''
 
-parser = argparse.ArgumentParser(
-            prog=sys.argv[0],
-            usage='Provides texts from standard input', # プログラムの利用方法
-            add_help=True, # -h/–help オプションの追加
-            )
+parser = argparse.ArgumentParser(prog=sys.argv[0], usage='Provides texts from standard input', add_help=True)
 parser.add_argument('-k', '--key', help='DeepL API key')
 parser.add_argument('-l', '--lang', help='Target language. JA, EN, etc')
 args = parser.parse_args()
