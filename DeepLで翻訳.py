@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(
             add_help=True, # -h/–help オプションの追加
             )
 parser.add_argument('-k', '--key', help='DeepL API key')
-parser.add_argument('-l', '--lang', help='Target language')
+parser.add_argument('-l', '--lang', help='Target language. JA, EN, etc')
 args = parser.parse_args()
 
 if not args.key:
