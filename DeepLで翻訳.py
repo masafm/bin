@@ -20,10 +20,12 @@ def decode(s, encodings=('utf8', 'cp932')):
 
 input = sys.stdin.buffer.read()
 try:
+    key=''
     if len(sys.argv) < 2:
-        print("API key required")
-        exit(1)
-    key=sys.argv[1]
+        with open(os.environ['HOME']+'/.deepl') as file:
+            key = file.readline()
+    else:
+        key = sys.argv[1]
     lang="EN"
     if len(sys.argv) >= 3:
         lang = sys.argv[2]
