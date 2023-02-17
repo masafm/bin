@@ -33,4 +33,11 @@ except BrokenPipeError:
     os.dup2(devnull, sys.stdout.fileno())
     sys.exit(1)
 
-out, err = p.communicate(input=text)
+out, err = p.communicate(input=f"""ご担当者様
+
+お世話になっております｡ Datadog 柏木です｡
+
+{text}
+
+以上､よろしくお願いいたします｡
+""")
