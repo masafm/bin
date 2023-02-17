@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # Reply customer with quotation
 
-# %%%{CotEditorXInput=AllText}%%%
-# %%%{CotEditorXOutput=ReplaceAllText}%%%
+# %%%{CotEditorXInput=Selection}%%%
+# %%%{CotEditorXOutput=None}%%%
 
 import sys
 import subprocess
