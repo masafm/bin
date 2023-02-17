@@ -40,10 +40,11 @@ except BrokenPipeError:
 print(text+"\n-----")
 cmd = ["curl",
        "-X", "POST",
-       "https://api-free.deepl.com/v2/translate",
        "-H", f"Authorization: DeepL-Auth-Key {args.key}",
+       "-d", f"target_lang={args.lang}",
        "-d", "@-",
-       "-d", f"target_lang={args.lang}"]
+       "https://api-free.deepl.com/v2/translate",
+       ]
 p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 out, err = p.communicate(input="text="+text)
 print(json.loads(out)['translations'][0]['text'])

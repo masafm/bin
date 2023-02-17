@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Delete timestamps in the begining of each line
+# Reply customer with quotation
 
 # %%%{CotEditorXInput=AllText}%%%
 # %%%{CotEditorXOutput=ReplaceAllText}%%%
