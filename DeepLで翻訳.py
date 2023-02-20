@@ -23,13 +23,7 @@ if not args.key:
 if not args.lang:
     args.lang = 'EN'
 
-input = sys.stdin.buffer.read()
-try:
-    text='\n'.join(c.decode(input).splitlines())
-except BrokenPipeError:
-    devnull = os.open(os.devnull, os.O_WRONLY)
-    os.dup2(devnull, sys.stdout.fileno())
-    sys.exit(1)
+text=c.decode(sys.stdin.buffer.read())
 print(text+"\n-----")
 cmd = ["curl",
        "-X", "POST",
