@@ -15,9 +15,9 @@ class common:
         try:
             for line in common.decode(sys.stdin.buffer.read()).splitlines():
                 if line.startswith('>'):
-                    text += f">{line}"
+                    text += f">{line}\n"
                 else:
-                    text += f"> {line}"
+                    text += f"> {line}\n"
         except BrokenPipeError:
             devnull = os.open(os.devnull, os.O_WRONLY)
             os.dup2(devnull, sys.stdout.fileno())
