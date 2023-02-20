@@ -8,18 +8,11 @@ import sys
 import subprocess
 import re
 import os
-
-def decode(s, encodings=('utf8', 'cp932')):
-    for encoding in encodings:
-        try:
-            return s.decode(encoding)
-        except UnicodeDecodeError:
-            pass
-    return ''
+from common import common as c
 
 input = sys.stdin.buffer.read()
 try:
-    for line in decode(input).splitlines():
+    for line in c.decode(input).splitlines():
         tmp = re.sub('^\[.+?\] ?', '', line)
         print(re.sub('\r\n$', '\n', tmp))
 except BrokenPipeError:

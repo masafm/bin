@@ -10,14 +10,7 @@ import re
 import os
 import json
 import argparse
-
-def decode(s, encodings=('utf8', 'cp932')):
-    for encoding in encodings:
-        try:
-            return s.decode(encoding)
-        except UnicodeDecodeError:
-            pass
-    return ''
+from common import common as c
 
 parser = argparse.ArgumentParser(prog=sys.argv[0], usage='Provides texts from standard input', add_help=True)
 parser.add_argument('-k', '--key', help='DeepL API key')
@@ -32,7 +25,7 @@ if not args.lang:
 
 input = sys.stdin.buffer.read()
 try:
-    text='\n'.join(decode(input).splitlines())
+    text='\n'.join(c.decode(input).splitlines())
 except BrokenPipeError:
     devnull = os.open(os.devnull, os.O_WRONLY)
     os.dup2(devnull, sys.stdout.fileno())
