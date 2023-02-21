@@ -4,6 +4,7 @@
 # %%%{CotEditorXInput=Selection}%%%
 # %%%{CotEditorXOutput=InsertAfterSelection}%%%
 
+import sys
 from _common import common as c
 
-print(c.add_quote())
+c.add_quote(sys.stdin, sys.stdout)

@@ -10,11 +10,13 @@ class common:
                 pass
             return ''
 
-    def add_quote():
-        text=""
-        for line in common.decode(sys.stdin.buffer.read()).splitlines():
+    def add_quote(input,output):
+        count=0
+        while line := input.buffer.readline():
+            line = common.decode(line)
             if line.startswith('>'):
-                text += f">{line}\n"
+                output.write(f">{line}")
             else:
-                text += f"> {line}\n"
-        return text
+                output.write(f"> {line}")
+            count += 1
+        return count

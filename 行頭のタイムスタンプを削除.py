@@ -5,12 +5,9 @@
 # %%%{CotEditorXOutput=ReplaceAllText}%%%
 
 import sys
-import subprocess
 import re
-import os
 from _common import common as c
 
-input = c.decode(sys.stdin.buffer.read())
-for line in input.splitlines():
-    tmp = re.sub('^\[.+?\] ?', '', line)
-    print(re.sub('\r\n$', '\n', tmp))
+while line := sys.stdin.buffer.readline():
+    tmp = re.sub('^\[.+?\] ?', '', c.decode(line))
+    sys.stdout.write(re.sub('\r\n$', '\n', tmp))

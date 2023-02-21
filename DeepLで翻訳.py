@@ -6,7 +6,6 @@
 
 import sys
 import subprocess
-import re
 import os
 import json
 import argparse
