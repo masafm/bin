@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Reply customer with quotation
+# Save selected text as a file and open it
 
 # %%%{CotEditorXInput=Selection}%%%
 # %%%{CotEditorXOutput=None}%%%
