@@ -4,6 +4,6 @@
 # %%%{CotEditorXInput=Selection}%%%
 # %%%{CotEditorXOutput=InsertAfterSelection}%%%
 
-from common import common as c
+from _common import common as c
 
 print(c.add_quote())

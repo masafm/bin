@@ -8,7 +8,7 @@ import sys
 import subprocess
 import re
 import os
-from common import common as c
+from _common import common as c
 
 input = c.decode(sys.stdin.buffer.read())
 for line in input.splitlines():

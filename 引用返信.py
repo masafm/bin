@@ -8,7 +8,7 @@ import subprocess
 import re
 import os
 import datetime
-from common import common as c
+from _common import common as c
 
 d = datetime.datetime.now()
 path=f"{os.environ['HOME']}/Documents/drafts/{d.strftime('%Y%m%d-%H%M%S')}.txt"

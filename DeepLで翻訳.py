@@ -10,7 +10,7 @@ import re
 import os
 import json
 import argparse
-from common import common as c
+from _common import common as c
 
 parser = argparse.ArgumentParser(prog=sys.argv[0], usage='Provides texts from standard input', add_help=True)
 parser.add_argument('-k', '--key', help='DeepL API key')
