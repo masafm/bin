@@ -2,7 +2,7 @@
 # Paste clipboard text with quote marks
 
 # %%%{CotEditorXInput=Selection}%%%
-# %%%{CotEditorXOutput=InsertAfterSelection}%%%
+# %%%{CotEditorXOutput=ReplaceSelection}%%%
 
 import sys
 from _common import common as c
