@@ -4,9 +4,8 @@
 # %%%{CotEditorXInput=None}%%%
 # %%%{CotEditorXOutput=InsertAfterSelection}%%%
 
-print("""ご担当者様
+import sys
+from _common import common as c
 
-お世話になっております｡ Datadog 柏木です｡
+c.reply_template(sys.stdout)
 
-
-以上､よろしくお願いいたします｡""")

@@ -10,9 +10,9 @@ class common:
                 pass
             return ''
 
-    def add_quote(input,output):
+    def add_quote(output):
         count=0
-        while line := input.buffer.readline():
+        while line := sys.stdin.buffer.readline():
             line = common.decode(line)
             if line.startswith('>'):
                 output.write(f">{line}")
@@ -20,3 +20,15 @@ class common:
                 output.write(f"> {line}")
             count += 1
         return count
+
+    def reply_template(output,func=None):
+        output.write("""ご担当者様
+
+お世話になっております｡ Datadog 柏木です｡
+
+""")
+        count = func(output) if func else 0
+        output.write("""
+
+以上､よろしくお願いいたします｡""")
+        return count+7
