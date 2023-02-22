@@ -7,4 +7,4 @@
 import sys
 from _common import common as c
 
-c.add_quote(sys.stdin, sys.stdout)
+c.add_quote(sys.stdout)
