@@ -23,7 +23,7 @@ if not args.lang:
     args.lang = 'EN'
 
 text=c.decode(sys.stdin.buffer.read())
-print(text+"\n-----")
+print(text+"-----")
 cmd = ["curl",
        "-X", "POST",
        "-H", f"Authorization: DeepL-Auth-Key {args.key}",
