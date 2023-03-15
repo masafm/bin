@@ -2,8 +2,6 @@
 import sys
 
 class common:
-    cot="/Applications/CotEditor.app/Contents/SharedSupport/bin/cot"
-
     def decode(s, encodings=('utf8', 'cp932')):
         for encoding in encodings:
             try:

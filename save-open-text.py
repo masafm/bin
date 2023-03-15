@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# Save selected text as a file and open it
-
-# %%%{CotEditorXInput=Selection}%%%
-# %%%{CotEditorXOutput=None}%%%
-
 import subprocess
 import os
 import datetime
@@ -16,7 +11,4 @@ text=c.decode(sys.stdin.buffer.read())
 
 with open(path, 'w') as f:
     f.write(text)
-
-cmd = ["open", path]
-p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-out, err = p.communicate()
+print(path)

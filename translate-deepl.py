@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-# Translate texts by DeepL API
-
-# %%%{CotEditorXInput=Selection}%%%
-# %%%{CotEditorXOutput=ReplaceSelection}%%%
-
 import sys
 import subprocess
 import os
