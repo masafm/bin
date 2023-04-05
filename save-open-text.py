@@ -6,7 +6,7 @@ import sys
 from _common import common as c
 
 d = datetime.datetime.now()
-path=f"{os.environ['HOME']}/Documents/drafts/{d.strftime('%Y%m%d-%H%M%S')}.txt"
+path=f"{os.environ['HOME']}/Documents/Notes/{d.strftime('%Y%m%d-%H%M%S')}.md"
 text=c.decode(sys.stdin.buffer.read())
 
 with open(path, 'w') as f:
