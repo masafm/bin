@@ -15,8 +15,6 @@
 # クリップボードの内容を読み込む
 text="$(pbpaste)"
 dir=""
-text="$(pbpaste)"
-dir=""
 if [[ $(echo "$text" | wc -l) -gt 1 ]];then
     case_desc="$(echo "$text" | gsed -n '1p')"
     case_num="$(echo "$text" | gsed -n '2p' | perl -pe 's/.*?([0-9]+).*?/$1/g')"
