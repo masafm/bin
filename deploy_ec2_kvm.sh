@@ -10,7 +10,7 @@ echo -n "Enter your ssh key name [$default_name]: " && \
 read ssh_key && \
 ssh_key=${ssh_key:-$default_name} && \
 timestamp=$(date +%s) && \
-        
+
 # Retrieve my public IP address
 my_ip=$(curl -s https://checkip.amazonaws.com) && \
 
