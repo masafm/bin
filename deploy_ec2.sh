@@ -54,6 +54,7 @@ echo "---------------------------------"
 echo "Instance name: ${instance_name}"
 echo "Public IP: $(aws --region $region ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text 2>/dev/null)"
 echo "Private IP: $(aws --region $region ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text 2>/dev/null)"
+echo "User Name: ubuntu"
 echo "RDP Password: Datadog/4u"
 sleep 1
 aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#InstanceDetails:instanceId=${instance_id}"
