@@ -23,7 +23,8 @@ instance_name="${user_name}-kvm-${timestamp}"
 # Create a security group
 subnet_id=${SUBNET_ID:-"subnet-099904a6ad96204d6"}
 vpc_id=$(aws --region ${region} ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text)
-if [[ -n $SG_CREATE ]] && [[ "${SG_CREATE,,}" != "false" ]]; then
+SG_CREATE=$(echo $SG_CREATE | tr '[:upper:]' '[:lower:]')
+if [[ -n $SG_CREATE ]] && [[ "${SG_CREATE}" != "false" ]]; then
     sg_id=$(aws --region ${region} ec2 create-security-group --group-name "$instance_name" --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id "$vpc_id" --output text)
     # Allow SSH access (port 22)
     aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32
