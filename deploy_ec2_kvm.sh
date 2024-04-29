@@ -21,9 +21,12 @@ aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northe
     instance_name="${user_name}-kvm-${timestamp}" && \
         
     # Create a security group
-    subnet_id=${SUBNET_ID:-"subnet-17b4f661"} && \
-    vpc_id=$(aws ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text)
-    sg_id=$(aws ec2 create-security-group --group-name $instance_name --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id $vpc_id --output text) && \
+    subnet_id=${SUBNET_ID:-"subnet-099904a6ad96204d6"} && \
+    vpc_id=$(aws ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text) && \
+    if [[ -n $SG_CREATE ]]; then
+        sg_id=$(aws ec2 create-security-group --group-name "$instance_name" --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id "$vpc_id" --output text)
+    fi && \
+    sg_id=${sg_id:-"sg-03281c3c18cee36cc"} && \
         
     # Allow SSH access (port 22)
     aws ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32 && \
