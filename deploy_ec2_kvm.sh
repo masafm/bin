@@ -15,40 +15,40 @@ aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northe
     my_ip=$(curl -s https://checkip.amazonaws.com) && \
         
     # Retrieve the username
-    user_name=$(aws sts get-caller-identity --query 'Arn' --output text | rev | cut -d/ -f1 | rev | sed -e 's/@.*//') && \
+    user_name=$(aws --region ap-northeast-1 sts get-caller-identity --query 'Arn' --output text | rev | cut -d/ -f1 | rev | sed -e 's/@.*//') && \
         
     # Set the instance name based on the username
     instance_name="${user_name}-kvm-${timestamp}" && \
         
     # Create a security group
     subnet_id=${SUBNET_ID:-"subnet-099904a6ad96204d6"} && \
-    vpc_id=$(aws ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text) && \
+    vpc_id=$(aws --region ap-northeast-1 ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text) && \
     if [[ -n $SG_CREATE ]]; then
-        sg_id=$(aws ec2 create-security-group --group-name "$instance_name" --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id "$vpc_id" --output text)
+        sg_id=$(aws --region ap-northeast-1 ec2 create-security-group --group-name "$instance_name" --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id "$vpc_id" --output text)
     fi && \
     sg_id=${sg_id:-"sg-03281c3c18cee36cc"} && \
         
     # Allow SSH access (port 22)
-    aws ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32 && \
+    aws --region ap-northeast-1 ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32 && \
         
     # Allow RDP access (port 3389)
-    aws ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 3389 --cidr ${my_ip}/32 && \
+    aws --region ap-northeast-1 ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 3389 --cidr ${my_ip}/32 && \
         
     # Specify the AMI ID and instance type
     ami_id=ami-0adb3635eb20f395b && \
     
     # Deploy instance from Launch Template
-    instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet_id --key-name "$ssh_key" --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
+    instance_id=$(aws --region ap-northeast-1 ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet_id --key-name "$ssh_key" --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
 echo "ubuntu:Datadog/4u" | sudo chpasswd
 ') && \
 
     # Set Name tag of instance
-    aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$instance_name && \
+    aws --region ap-northeast-1 ec2 create-tags --resources $instance_id --tags Key=Name,Value=$instance_name && \
 
     # Output the instance name and Public IP
     echo "---------------------------------" && \
     echo "Instance name: ${instance_name}" && \
-    echo "ssh ubuntu@$(aws ec2 describe-instances --instance-ids ${instance_id} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" && \
+    echo "ssh ubuntu@$(aws --region ap-northeast-1 ec2 describe-instances --instance-ids ${instance_id} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" && \
     echo "RDP Password: Datadog/4u" && \
     aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#InstanceDetails:instanceId=${instance_id}" && \
     echo "" && \
