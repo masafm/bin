@@ -21,7 +21,9 @@ aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northe
     instance_name="${user_name}-kvm-${timestamp}" && \
         
     # Create a security group
-    sg_id=$(aws ec2 create-security-group --group-name $instance_name --description "Security group for SSH and RDP access" --query 'GroupId' --output text) && \
+    subnet_id=${SUBNET:-"subnet-17b4f661"} && \
+    vpc_id=$(aws ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text)
+    sg_id=$(aws ec2 create-security-group --group-name $instance_name --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id $vpc_id --output text) && \
         
     # Allow SSH access (port 22)
     aws ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32 && \
@@ -31,10 +33,9 @@ aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northe
         
     # Specify the AMI ID and instance type
     ami_id=ami-0adb3635eb20f395b && \
-    subnet=${SUBNET:-"subnet-17b4f661"} && \
     
     # Deploy instance from Launch Template
-    instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet --key-name "$ssh_key" --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
+    instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet_id --key-name "$ssh_key" --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
 echo "ubuntu:Datadog/4u" | sudo chpasswd
 ') && \
 
