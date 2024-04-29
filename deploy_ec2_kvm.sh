@@ -29,22 +29,12 @@ aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northe
     # Allow RDP access (port 3389)
     aws ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 3389 --cidr ${my_ip}/32 && \
         
-    role_name="${user_name}-ec2-ssm-${timestamp}-role" && \
-    aws iam create-role --role-name $role_name --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{"Effect": "Allow","Principal": {"Service": "ec2.amazonaws.com"},"Action": "sts:AssumeRole"}]}' && \
-        
-    aws iam attach-role-policy --role-name $role_name --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess && \
-    aws iam attach-role-policy --role-name $role_name --policy-arn arn:aws:iam::aws:policy/AmazonSSMFullAccess && \
-
-    profile_name="${user_name}-${timestamp}-profile" && \
-    aws iam create-instance-profile --instance-profile-name ${profile_name} && \
-    aws iam add-role-to-instance-profile --instance-profile-name ${profile_name} --role-name ${role_name} && \
-
     # Specify the AMI ID and instance type
     ami_id=ami-0adb3635eb20f395b && \
     subnet=${SUBNET:-"subnet-17b4f661"} && \
     
     # Deploy instance from Launch Template
-    instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet --key-name "$ssh_key" --iam-instance-profile Name=$profile_name --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
+    instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet --key-name "$ssh_key" --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
 echo "ubuntu:Datadog/4u" | sudo chpasswd
 ') && \
 
