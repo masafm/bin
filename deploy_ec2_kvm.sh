@@ -3,7 +3,7 @@
 aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#KeyPairs:" && \
 echo "Please find your SSH key pair name from below URL" && \
 echo "Press enter to open ${aws_url}" && \
-timeout 3 read enter && \
+read enter && \
 open "$aws_url" && \
 default_name=masafumi.kashiwagi && \
 echo -n "Enter your ssh key name [$default_name]: " && \
@@ -47,7 +47,7 @@ subnet=${SUBNET:-"subnet-17b4f661"} && \
 # Deploy instance from Launch Template
 instance_id=$(aws ec2 run-instances --image-id $ami_id --instance-type c5.metal --security-group-ids $sg_id --subnet-id $subnet --key-name "$ssh_key" --iam-instance-profile Name=$profile_name --count 1 --query 'Instances[0].InstanceId' --output text --user-data '#!/bin/bash
 echo "ubuntu:Datadog/4u" | sudo chpasswd
-')
+') && \
 
 # Set Name tag of instance
 aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=$instance_name && \
@@ -60,5 +60,5 @@ echo "RDP Password: Datadog/4u" && \
 aws_url="https://ap-northeast-1.console.aws.amazon.com/ec2/home?region=ap-northeast-1#InstanceDetails:instanceId=${instance_id}" && \
 echo ""
 echo "Press enter to open instance page" && \
-timeout read enter && \
+read enter && \
 open "$aws_url"
