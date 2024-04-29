@@ -52,6 +52,7 @@ aws --region ${region} ec2 create-tags --resources $instance_id --tags Key=Name,
 # Output the instance name
 echo "---------------------------------"
 echo "Instance name: ${instance_name}"
+sleep 1
 echo "Public IP: $(aws ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)"
 echo "Private IP: $(aws ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
 echo "RDP Password: Datadog/4u"
@@ -60,4 +61,4 @@ aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#Inst
 echo $aws_url
 open $aws_url
 
-#finish
+# Comment for avoiding unknown error
