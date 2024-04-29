@@ -30,6 +30,9 @@
         aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32
         # Allow RDP access (port 3389)
         aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 3389 --cidr ${my_ip}/32
+        # Allow ICMP
+        aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol icmp --port -1 --cidr ${my_ip}/32 --icmp-type-code "Type=8,Code=0"
+
     elif [[ -n $SG_ID ]]; then
         sg_id=$SG_ID
     else
