@@ -1,13 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 region=${REGION:-"ap-northeast-1"}
-aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#KeyPairs:"
-echo "Please find your SSH key pair name from below URL"
-echo "Press enter to open ${aws_url}"
-read enter
-open "$aws_url"
+aws --region $region ec2 describe-key-pairs --query 'KeyPairs[*].KeyName' --output text | tr '\t' '\n' | sort -f
+echo ""
 default_name=masafumi.kashiwagi
+echo "Please find your SSH key pair name from above list"
 echo -n "Enter your ssh key name [$default_name]: "
 read ssh_key
 ssh_key=${ssh_key:-$default_name}
@@ -53,11 +51,12 @@ aws --region ${region} ec2 create-tags --resources $instance_id --tags Key=Name,
 # Output the instance name
 echo "---------------------------------"
 echo "Instance name: ${instance_name}"
-echo "Public IP: $(aws ec2 describe-instances --instance-ids "${instance_name}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)"
-echo "Private IP: $(aws ec2 describe-instances --instance-ids "${instance_name}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
+echo "Public IP: $(aws ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)"
+echo "Private IP: $(aws ec2 describe-instances --instance-ids "${instance_id}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)"
 echo "RDP Password: Datadog/4u"
+sleep 1
 aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#InstanceDetails:instanceId=${instance_id}"
-echo ""
-echo "Press enter to open instance page"
-read enter
-open "$aws_url"
+echo $aws_url
+open $aws_url
+
+#finish
