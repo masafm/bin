@@ -49,7 +49,6 @@ echo "ubuntu:Datadog/4u" | sudo chpasswd
     # Output the instance name and Public IP
     echo "---------------------------------" && \
     echo "Instance name: ${instance_name}" && \
-    echo "ssh ubuntu@$(aws --region ${region} ec2 describe-instances --instance-ids ${instance_id} --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)" && \
     echo "RDP Password: Datadog/4u" && \
     aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#InstanceDetails:instanceId=${instance_id}" && \
     echo "" && \
