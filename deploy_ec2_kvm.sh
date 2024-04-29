@@ -1,6 +1,6 @@
 #!/bin/bash
 
-    region=ap-northeast-1 && \
+    region=${REGION:-"ap-northeast-1"} && \
     aws_url="https://${region}.console.aws.amazon.com/ec2/home?region=${region}#KeyPairs:" && \
     echo "Please find your SSH key pair name from below URL" && \
     echo "Press enter to open ${aws_url}" && \
