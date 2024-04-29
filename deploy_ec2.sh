@@ -24,7 +24,7 @@
     # Create a security group
     subnet_id=${SUBNET_ID:-"subnet-099904a6ad96204d6"} && \
     vpc_id=$(aws --region ${region} ec2 describe-subnets --subnet-ids $subnet_id --query 'Subnets[*].VpcId' --output text) && \
-    if [[ -n $SG_CREATE ]]; then
+    if [[ -n $SG_CREATE ]] && [[ "${SG_CREATE,,}" != "false" ]]; then
         sg_id=$(aws --region ${region} ec2 create-security-group --group-name "$instance_name" --description "Security group for SSH and RDP access" --query 'GroupId' --vpc-id "$vpc_id" --output text)
         # Allow SSH access (port 22)
         aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 22 --cidr ${my_ip}/32
@@ -32,9 +32,10 @@
         aws --region ${region} ec2 authorize-security-group-ingress --group-id $sg_id --protocol tcp --port 3389 --cidr ${my_ip}/32
     elif [[ -n $SG_ID ]]; then
         sg_id=$SG_ID
+    else
+        sg_id=$(aws ec2 describe-security-groups --filters Name=vpc-id,Values=${vpc_id} Name=group-name,Values='default' --query 'SecurityGroups[0].GroupId' --output text)
     fi && \
-    sg_id=${sg_id:-"sg-03281c3c18cee36cc"} && \
-
+        
     # Specify the AMI ID and instance type
     ami_id=${AMI_ID:-"ami-0adb3635eb20f395b"} && \
     
