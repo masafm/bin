@@ -18,7 +18,7 @@ else
     if [[ ! $case_num =~ ^[0-9]+$ ]];then
         exit
     fi
-    dir=$(ls -d "${HOME}/Downloads/${case_num}"*)
+    dir=$(ls -d "${HOME}/Downloads/${case_num}"* | head -n1)
 fi
 if [[ -n "$dir" ]];then
     echo "cd '$dir'" | /opt/homebrew/bin/gsed -z -e "s/\n//" | pbcopy
