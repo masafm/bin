@@ -68,6 +68,7 @@ def main():
 
     response = requests.post(url, headers=headers, data=data)
     json_data=response.json()
+    log.debug("metabase_response: "+str(json_data))
     
     # Post data to Datadog API
     dd_api_key = os.getenv("DD_API_KEY")
