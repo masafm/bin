@@ -4,6 +4,7 @@ import requests
 import time
 import subprocess
 import logging
+from requests.exceptions import Timeout, RequestException
 from ddtrace import tracer
 
 def get_logger():
@@ -66,10 +67,27 @@ def main():
         "parameters": "[]"
     }
 
-    response = requests.post(url, headers=headers, data=data)
-    json_data=response.json()
-    log.debug("metabase_response: "+str(json_data))
-    
+    try:
+        # POSTリクエストを送信し、タイムアウトは許容
+        response = requests.post(url, headers=headers, data=data, timeout=10)
+
+        # ステータスコードのチェック
+        if response.status_code // 100 != 2:
+            log.error(f"Failed to retrieve data from Metabase. HTTP Status Code: {response.status_code}")
+            return
+
+        json_data = response.json()
+        log.debug("metabase_response: "+str(json_data))
+
+    except Timeout:
+        log.warning(f"Request to {url} timed out, proceeding without data.")
+        span = tracer.current_root_span()
+        span.error = 0
+        return  # タイムアウト時はエラーにしない
+    except RequestException as e:
+        log.error(f"An error occurred while connecting to Metabase: {e}")
+        raise  # 例外を再スロー
+
     # Post data to Datadog API
     dd_api_key = os.getenv("DD_API_KEY")
     dd_app_key = os.getenv("DD_APP_KEY")
