@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env DD_TRACE_DEBUG=true DD_LOGS_INJECTION=true DD_DOGSTATSD_PORT=8135 DD_AGENT_PORT=8136 DD_SERVICE=productivity DD_VERSION=1.0 DD_ENV=prod ddtrace-run python3
 import os
 import requests
 import time
